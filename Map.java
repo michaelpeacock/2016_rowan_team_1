@@ -1,10 +1,15 @@
 import java.util.Random;
 public class Map{
 	
+	private static final lower = .65;
+	private static final upper = 1.35;
+	private static final upperTime = 2400;
+
 	double north;
 	double south;
 	double east;
 	double west;	
+
 	//Point resizable array
 
 	public Map(){
@@ -44,8 +49,11 @@ public class Map{
 	}
 
 	public Point createPossible(Vessel vessel){
-		
-	}
+		double xPossible = (vessel.getLongitude() * lower) + ((vessel.getLongitude() * upper) - (vessel.getLongitude() * lower)) * rand.nextDouble();
+		double yPossible = (vessel.getLatitude() * lower) + ((vessel.getLatitude() * upper) - (vessel.getLatitude() * lower)) * rand.nextDouble();
+		double headingPossible = (vessle.getHeading() * lower) + ((vessel.getHeading() * upper) - (vessel.getHeading() * lower)) * rand.nextDouble();
+		double timePossible = (double) rand.nextInt(upperTime + 1) / 100;
+}
 
 	private static double findNorth(Point points []){
 		double small;
