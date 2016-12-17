@@ -4,8 +4,6 @@ import java.util.Date;
 
 public class Vessel {
 	
-	
-	
 Date tNot;
 Point lastLoc; 
 
