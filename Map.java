@@ -73,13 +73,8 @@ public class Map{
 		return pointSet;
 	}
 
-<<<<<<< HEAD
-	private static int findNorth(Point points []){
-		int small;
-=======
 	private static double findNorth(Point points []){
 		double small = Double.MAX_VALUE;
->>>>>>> PKT_dev
 		for(Point point : points){
 			if(small > point.getY())
 				small = point.getY();
@@ -89,27 +84,16 @@ public class Map{
 	
 	
 
-<<<<<<< HEAD
-	private static int findSouth(Point points []){
-		int large;
-=======
 	private static double findSouth(Point points []){
 		double large = Double.MIN_VALUE;
->>>>>>> PKT_dev
 		for(Point point : points){
 			if(large < point.getY())
 				large = point.getY();
 		}
 		return large;
 	}
-
-<<<<<<< HEAD
-	private static int findWest(Point points []){
-		int small;
-=======
 	private static double findWest(Point points []){
 		double small = Double.MAX_VALUE;
->>>>>>> PKT_dev
 		for(Point point : points){
 			if(small > point.getX())
 				small = point.getX();
@@ -117,19 +101,12 @@ public class Map{
 		return small;
 	}
 	
-<<<<<<< HEAD
-	private static int findEast(Point points []){
-		int large;
-=======
 	private static double findEast(Point points []){
 		double large = Double.MIN_VALUE;
->>>>>>> PKT_dev
 		for(Point point : points){
 			if(large < point.getX())
 				large = point.getX();
 		}
 		return large;
 	}
-	
-	
 }
