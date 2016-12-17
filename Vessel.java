@@ -71,6 +71,16 @@ public double getX() {
 public double getY() {
 	return lastLoc.getY();
 }
+
+	public int getLong()
+	{
+		return (int) lastLoc.getY();
+	}
+
+	public int getLat()
+	{
+		return (int) lastLoc.getX();
+	}
 	
 }
 

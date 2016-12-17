@@ -22,4 +22,12 @@ public class Point {
 	{
 		return y;
 	}
+
+	public int getLong(){
+		return x-(int)x > .5 ? (int)x+1 : (int)x; //If the long has a value greater than .5 in the decimal then round up, else round down
+	}
+	
+	public int getLat(){
+		return y-(int)y > .5 ? (int)y+1 : (int)y;//If the long has a value greater than .5 in the decimal then round up, else round down
+	}
 }

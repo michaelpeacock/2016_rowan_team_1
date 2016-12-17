@@ -38,7 +38,7 @@ public class Map{
 
 	}
 
-	public Map(double north, double south, double east, double west){
+	public Map(int north, int south, int east, int west){
 		this.north = north;
 		this.south = south;
 		this.east = east;
@@ -47,7 +47,7 @@ public class Map{
 		this.points = new Point[totalPoints];
 	}
 
-	public Map(double north, double south, double east, double west, Point points [])
+	public Map(int north, int south, int east, int west, Point points [])
 	{
 		this.north = north;
 		this.south = south;
@@ -56,16 +56,23 @@ public class Map{
 		this.points = points;
 	}
 
+	public double[][] populate(int x, int y){
+		double[][] map  = new double[x][y];
+		for(int i = 0; i < x; i++){
+			for(int k = 0; k < y; k++){
+				map[i][k] = 0;
+			}
+		}
+		return map;
+	}
+
 	public double[][] createMap(Vessel vessel){
-		double [][] map = new double[south-north][east-west];
+		double [][] map = populate(south-north,east-west);
 		Point pointSet [] = createPossiblePointSet(vessel);
 		for(int i = 0; i < totalPoints; i++){
-			if(map[pointSet[i].getX()][pointSet[i].getY()] == null)
-			map[pointSet[i].getX()][pointSet[i].getY()] = 1;
-			else
-			map[pointSet[i].getX()][pointSet[i].getY()]++;
-
+			map[pointSet[i].getLong()][pointSet[i].getLat()]++;
 		}
+		return map;
 	}
 
 	public Point[] createPossiblePointSet(Vessel vessel){
@@ -76,7 +83,6 @@ public class Map{
 			double headingPossible = (vessel.getHeading() * lower) + ((vessel.getHeading() * upper) - (vessel.getHeading() * lower)) * rand.nextDouble();
 			double timePossible = (double) rand.nextInt(upperTime + 1) / 100;
 			double velPossible = (vessel.getSpeed() * lower) + ((vessel.getSpeed() * upper) - (vessel.getSpeed() * lower)) * rand.nextDouble();
-
 			double distance = timePossible * velPossible;
 			double xDistance = (Math.cos(Math.toRadians(headingPossible)) * distance) / mileToLong;
 			double yDistance = (Math.sin(Math.toRadians(headingPossible)) * distance) / mileToLat;
@@ -87,39 +93,37 @@ public class Map{
 		return pointSet;
 	}
 
-	private static double findNorth(Point points []){
-		double small = Double.MAX_VALUE;
+	private static int findNorth(Point points []){
+		int small = Integer.MAX_VALUE;
 		for(Point point : points){
-			if(small > point.getY())
-				small = point.getY();
+			if(small > point.getLat())
+				small = point.getLat();
 		}
 		return small;
-	}
-	
-	
+	}	
 
-	private static double findSouth(Point points []){
-		double large = Double.MIN_VALUE;
+	private static int findSouth(Point points []){
+		int large = Integer.MIN_VALUE;
 		for(Point point : points){
-			if(large < point.getY())
-				large = point.getY();
+			if(large < point.getLat())
+				large = point.getLat();
 		}
 		return large;
 	}
-	private static double findWest(Point points []){
-		double small = Double.MAX_VALUE;
+	private static int findWest(Point points []){
+		int small = Integer.MAX_VALUE;
 		for(Point point : points){
-			if(small > point.getX())
-				small = point.getX();
+			if(small > point.getLong())
+				small = point.getLong();
 		}
 		return small;
 	}
 	
-	private static double findEast(Point points []){
-		double large = Double.MIN_VALUE;
+	private static int findEast(Point points []){
+		int large = Integer.MIN_VALUE;
 		for(Point point : points){
-			if(large < point.getX())
-				large = point.getX();
+			if(large < point.getLong())
+				large = point.getLong();
 		}
 		return large;
 	}
