@@ -67,8 +67,8 @@ public class Map{
 		}
 	}
 
-	private static double findNorth(Point points []){
-		double small;
+	private static int findNorth(Point points []){
+		int small;
 		for(Point point : points){
 			if(small > point.getLatitude())
 				small = point.getLatitude();
@@ -78,8 +78,8 @@ public class Map{
 	
 	
 
-	private static double findSouth(Point points []){
-		double large;
+	private static int findSouth(Point points []){
+		int large;
 		for(Point point : points){
 			if(large < point.getLatitude())
 				large = point.getLatitude();
@@ -87,8 +87,8 @@ public class Map{
 		return large;
 	}
 
-	private static double findWest(Point points []){
-		double small;
+	private static int findWest(Point points []){
+		int small;
 		for(Point point : points){
 			if(small > point.getLongitude())
 				small = point.getLongitude();
@@ -96,12 +96,14 @@ public class Map{
 		return small;
 	}
 	
-	private static double findEast(Point points []){
-		double large;
+	private static int findEast(Point points []){
+		int large;
 		for(Point point : points){
 			if(large < point.getLongitude())
 				large = point.getLongitude();
 		}
 		return large;
 	}
+	
+	
 }
