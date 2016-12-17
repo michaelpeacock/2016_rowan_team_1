@@ -104,8 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng lal  = new LatLng(36.4746, 16.57737);
         mMap.addMarker(new MarkerOptions().position(lal).title("BALTICDIEP")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.harbor)));
-        LatLng go  = new LatLng(36.9746, 15.9);
-        mMap.addMarker(new MarkerOptions().position(go).title("Probablity: 0.33"));
+
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(lal));
         Polygon c = mMap.addPolygon(new PolygonOptions()
@@ -113,6 +112,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .strokeColor(Color.RED)
                 .strokeWidth(1)
                 .fillColor(Color.GRAY));
+        LatLng go  = new LatLng(36.9746, 15.9);
+        mMap.addMarker(new MarkerOptions().position(go).title("Probablity: 0.33")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)));
         Polygon p = mMap.addPolygon(new PolygonOptions()
                 .add(new LatLng(37.7, 16.2), new LatLng(37.7, 16.2), new LatLng(34.2, 15.1), new LatLng(36.2, 18.1))
                 .strokeColor(Color.RED)
