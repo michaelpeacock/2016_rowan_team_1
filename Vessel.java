@@ -66,11 +66,11 @@ public void setETA(Date eTA) {
 	ETA = eTA;
 }
 
-public double getLongitude() {
+public double getX() {
 	return lastLoc.getX();
 }
 
-public double getLatitude() {
+public double getY() {
 	return lastLoc.getY();
 }
 	

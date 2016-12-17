@@ -2,15 +2,19 @@ import java.util.Random;
 public class Map{
 
 	private static Random rand = new Random();
-	
-	private static final double lower = .65;
-	private static final double upper = 1.35;
-	private static final int upperTime = 1440;
 
-	private double north;
-	private double south;
-	private double east;
-	private double west;	
+	private static final int mileToLat = 69;//this is an estimate for an approximate that works within 2 km of the north and south poles
+	private static final int mileToLong = 55;//this is an estimate for an approximate that works within few km of the actual
+
+	private static final double lower = .65;//this is to change the tolerance on the creation of possible locations of the ship
+	private static final double upper = 1.35;
+
+	private static final int upperTime = 1440;//minutes in a day. Used for creating T(casualty)
+
+	private double north;//furthest lat north
+	private double south;//furthest lat south
+	private double east;//furthest long east
+	private double west;//furthest long west
 
 	private Point points [];
 
@@ -20,7 +24,7 @@ public class Map{
 		east = 0;
 		west = 0;
 
-		points = new Points[10000];
+		points = new Point[10000];
 	}
 
 	public Map(Point points[]){
@@ -38,7 +42,7 @@ public class Map{
 		this.east = east;
 		this.west = west;
 		
-		this.points = new Points[10000];
+		this.points = new Point[10000];
 	}
 
 	public Map(double north, double south, double east, double west, Point points [])
@@ -53,25 +57,27 @@ public class Map{
 	public Point[] createPossiblePointSet(Vessel vessel){
 		Point pointSet [] = new Point[10000];
 		for(int i = 0; i < 10000; i++){
-			double xPossible = (vessel.getLongitude() * lower) + ((vessel.getLongitude() * upper) - (vessel.getLongitude() * lower)) * rand.nextDouble();
-			double yPossible = (vessel.getLatitude() * lower) + ((vessel.getLatitude() * upper) - (vessel.getLatitude() * lower)) * rand.nextDouble();
+			double xPossible = (vessel.getX() * lower) + ((vessel.getX() * upper) - (vessel.getX() * lower)) * rand.nextDouble();
+			double yPossible = (vessel.getY() * lower) + ((vessel.getY() * upper) - (vessel.getY() * lower)) * rand.nextDouble();
 			double headingPossible = (vessel.getHeading() * lower) + ((vessel.getHeading() * upper) - (vessel.getHeading() * lower)) * rand.nextDouble();
 			double timePossible = (double) rand.nextInt(upperTime + 1) / 100;
 			double velPossible = (vessel.getSpeed() * lower) + ((vessel.getSpeed() * upper) - (vessel.getSpeed() * lower)) * rand.nextDouble();
 
 			double distance = timePossible * velPossible;
-			double xDistance = Math.cos(Math.toRadians(headingPossible)) * distance;
-			double yDistance = Math.sin(Math.toRadians(headingPossible)) * distance;
+			double xDistance = (Math.cos(Math.toRadians(headingPossible)) * distance) / 69;
+			double yDistance = (Math.sin(Math.toRadians(headingPossible)) * distance) / 69;
 			Point point = new Point(xDistance + xPossible, yDistance + yPossible);
 			pointSet[i] = point;
+			System.out.println(xPossible + " " + yPossible + " " + headingPossible + " " + timePossible + " " + distance + " " + xDistance + " " + yDistance);
 		}
+		return pointSet;
 	}
 
 	private static double findNorth(Point points []){
-		double small;
+		double small = Double.MAX_VALUE;
 		for(Point point : points){
-			if(small > point.getLatitude())
-				small = point.getLatitude();
+			if(small > point.getY())
+				small = point.getY();
 		}
 		return small;
 	}
@@ -79,28 +85,28 @@ public class Map{
 	
 
 	private static double findSouth(Point points []){
-		double large;
+		double large = Double.MIN_VALUE;
 		for(Point point : points){
-			if(large < point.getLatitude())
-				large = point.getLatitude();
+			if(large < point.getY())
+				large = point.getY();
 		}
 		return large;
 	}
 
 	private static double findWest(Point points []){
-		double small;
+		double small = Double.MAX_VALUE;
 		for(Point point : points){
-			if(small > point.getLongitude())
-				small = point.getLongitude();
+			if(small > point.getX())
+				small = point.getX();
 		}
 		return small;
 	}
 	
 	private static double findEast(Point points []){
-		double large;
+		double large = Double.MIN_VALUE;
 		for(Point point : points){
-			if(large < point.getLongitude())
-				large = point.getLongitude();
+			if(large < point.getX())
+				large = point.getX();
 		}
 		return large;
 	}
