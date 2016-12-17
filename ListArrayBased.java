@@ -1,7 +1,7 @@
 public class ListArrayBased<T> implements ListInterface<T>
 {
 
-    private static final int MAX_LIST = 3;
+    private static final int MAX_LIST = 100000;
     protected T []items;  // an array of list items
     protected int numItems;  // number of items in list
 
@@ -10,6 +10,12 @@ public class ListArrayBased<T> implements ListInterface<T>
         items = (T[]) new Object[MAX_LIST];
         numItems = 0;
     }  // end default constructor
+
+    public ListArrayBased(int defaultSize)
+    {
+	items = (T[]) new Object[defaultSize];
+	numItems = 0;
+    }
 
     public boolean isEmpty()
     {

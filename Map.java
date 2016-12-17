@@ -3,16 +3,16 @@ public class Map{
 
 	private static Random rand = new Random();
 	
-	private static final lower = .65;
-	private static final upper = 1.35;
-	private static final upperTime = 2400;
+	private static final double lower = .65;
+	private static final double upper = 1.35;
+	private static final int upperTime = 1440;
 
-	double north;
-	double south;
-	double east;
-	double west;	
+	private double north;
+	private double south;
+	private double east;
+	private double west;	
 
-	//Point resizable array
+	private Point points [];
 
 	public Map(){
 		north = 0;
@@ -20,11 +20,11 @@ public class Map{
 		east = 0;
 		west = 0;
 
-		//Point resizable array	
+		points = new Points[10000];
 	}
 
 	public Map(Point points[]){
-		//Point resizable array = points
+		this.points = points;
 		north = findNorth(points);
 		south = findSouth(points);
 		east = findEast(points);
@@ -38,7 +38,7 @@ public class Map{
 		this.east = east;
 		this.west = west;
 		
-		//Points array
+		this.points = new Points[10000];
 	}
 
 	public Map(double north, double south, double east, double west, Point points [])
@@ -47,25 +47,29 @@ public class Map{
 		this.south = south;
 		this.east = east;
 		this.west = west;
-		//points array 
+		this.points = points;
 	}
 
-	public Point createPossiblePointSet(Vessel vessel){
+	public Point[] createPossiblePointSet(Vessel vessel){
+		Point pointSet [] = new Point[10000];
 		for(int i = 0; i < 10000; i++){
 			double xPossible = (vessel.getLongitude() * lower) + ((vessel.getLongitude() * upper) - (vessel.getLongitude() * lower)) * rand.nextDouble();
 			double yPossible = (vessel.getLatitude() * lower) + ((vessel.getLatitude() * upper) - (vessel.getLatitude() * lower)) * rand.nextDouble();
 			double headingPossible = (vessel.getHeading() * lower) + ((vessel.getHeading() * upper) - (vessel.getHeading() * lower)) * rand.nextDouble();
 			double timePossible = (double) rand.nextInt(upperTime + 1) / 100;
-			double velPossible = (vessel.getVelocity * lower) + ((vessel.getVelocity() * upper) - (vessel.getVelocity() * lower)) * rand.nextDouble();
+			double velPossible = (vessel.getSpeed() * lower) + ((vessel.getSpeed() * upper) - (vessel.getSpeed() * lower)) * rand.nextDouble();
 
 			double distance = timePossible * velPossible;
-
+			double xDistance = Math.cos(Math.toRadians(headingPossible)) * distance;
+			double yDistance = Math.sin(Math.toRadians(headingPossible)) * distance;
+			Point point = new Point(xDistance + xPossible, yDistance + yPossible);
+			pointSet[i] = point;
 		}
 	}
 
 	private static double findNorth(Point points []){
 		double small;
-		for(int i = 0; i < points.length -1;i++){
+		for(Point point : points){
 			if(small > point.getLatitude())
 				small = point.getLatitude();
 		}
@@ -76,7 +80,7 @@ public class Map{
 
 	private static double findSouth(Point points []){
 		double large;
-		for(int i = 0; i < points.length; i++){
+		for(Point point : points){
 			if(large < point.getLatitude())
 				large = point.getLatitude();
 		}
@@ -85,7 +89,7 @@ public class Map{
 
 	private static double findWest(Point points []){
 		double small;
-		for(int i = 0; i < points.length; i++){
+		for(Point point : points){
 			if(small > point.getLongitude())
 				small = point.getLongitude();
 		}
@@ -94,7 +98,7 @@ public class Map{
 	
 	private static double findEast(Point points []){
 		double large;
-		for(int i = 0; i < points.length; i++){
+		for(Point point : points){
 			if(large < point.getLongitude())
 				large = point.getLongitude();
 		}

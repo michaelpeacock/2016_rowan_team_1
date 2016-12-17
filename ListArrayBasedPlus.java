@@ -6,6 +6,11 @@ public class ListArrayBasedPlus<T> extends ListArrayBased<T>
         super();
     }
 
+    public ListArrayBasedPlus(int defaultSize)
+    {
+	super(defaultSize);
+    }
+
     public void add(int index, Object item)
     {
         if(items.length == numItems) {
